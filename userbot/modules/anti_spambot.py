@@ -97,7 +97,7 @@ async def ANTI_SPAMBOTS(welcm):
                         reason = f"[Banned by Combot Anti Spam](https://combot.org/cas/query?u={check_user.id})"
                         spambot = True
                     elif "t.cn/" in message.text:
-                        reason = "Match on `t.cn` URLs"
+                        reason = "Match on **t.cn** URLs"
                         spambot = True
                     elif "t.me/joinchat" in message.text:
                         reason = "Potential Promotion Message"
@@ -106,10 +106,10 @@ async def ANTI_SPAMBOTS(welcm):
                         reason = "Forwarded Message"
                         spambot = True
                     elif "?start=" in message.text:
-                        reason = "Telegram bot `start` link"
+                        reason = "Telegram bot **start** link"
                         spambot = True
                     elif "bit.ly/" in message.text:
-                        reason = "Match on `bit.ly` URLs"
+                        reason = "Match on **bit.ly** URLs"
                         spambot = True
                     else:
                         if check_user.first_name in ("Bitmex", "Promotion",
@@ -134,19 +134,19 @@ async def ANTI_SPAMBOTS(welcm):
                     if ANTI_SPAMBOT_SHOUT:
                         await welcm.reply(
                             "@admins\n"
-                            "`ANTI SPAMBOT DETECTOR!\n"
-                            "THIS USER MATCHES MY ALGORITHMS AS A SPAMBOT!`"
-                            f"REASON: {reason}")
+                            "**Anti-spambot detector!\n"
+                            "This user matches my algorithms as a spambot!**"
+                            f"**Reason:** {reason}")
                         kicked = False
                         reported = True
                 else:
                     try:
 
                         await welcm.reply(
-                            "`Potential Spambot Detected !!`\n"
-                            f"`REASON:` {reason}\n"
-                            "Kicking away for now, will log the ID for further purposes.\n"
-                            f"`USER:` [{check_user.first_name}](tg://user?id={check_user.id})"
+                            "**Potential spambot detected!**\n"
+                            f"**Reason:** {reason}\n"
+                            "**Kicking away for now, will log the ID for further purposes.**\n"
+                            f"**User:** [{check_user.first_name}](tg://user?id={check_user.id})"
                         )
 
                         await welcm.client.kick_participant(
@@ -158,9 +158,9 @@ async def ANTI_SPAMBOTS(welcm):
                         if ANTI_SPAMBOT_SHOUT:
                             await welcm.reply(
                                 "@admins\n"
-                                "`ANTI SPAMBOT DETECTOR!\n"
-                                "THIS USER MATCHES MY ALGORITHMS AS A SPAMBOT!`"
-                                f"REASON: {reason}")
+                                "**Anti-spambot detector!\n"
+                                "This user matches my algorithms as a spambot!**"
+                                f"**Reason:** {reason}")
                             kicked = False
                             reported = True
 
@@ -168,12 +168,12 @@ async def ANTI_SPAMBOTS(welcm):
                     if kicked or reported:
                         await welcm.client.send_message(
                             BOTLOG_CHATID, "#ANTI_SPAMBOT REPORT\n"
-                            f"USER: [{check_user.first_name}](tg://user?id={check_user.id})\n"
-                            f"USER ID: `{check_user.id}`\n"
-                            f"CHAT: {welcm.chat.title}\n"
-                            f"CHAT ID: `{welcm.chat_id}`\n"
-                            f"REASON: {reason}\n"
-                            f"MESSAGE:\n\n{message.text}")
+                            f"User: [{check_user.first_name}](tg://user?id={check_user.id})\n"
+                            f"User ID: `{check_user.id}`\n"
+                            f"Chat: {welcm.chat.title}\n"
+                            f"Chat ID: `{welcm.chat_id}`\n"
+                            f"Reason: {reason}\n"
+                            f"Message:\n\n{message.text}")
     except ValueError:
         pass
 

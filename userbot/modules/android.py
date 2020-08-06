@@ -47,7 +47,7 @@ async def device_info(request):
     elif textx:
         codename = textx.text
     else:
-        await request.edit("`Usage: .device <codename> / <model>`")
+        await request.edit("**Usage:** `.device <codename> / <model>`")
         return
     data = json.loads(
         get("https://raw.githubusercontent.com/androidtrackers/"
@@ -77,7 +77,7 @@ async def codename_info(request):
         brand = textx.text.split(' ')[0]
         device = ' '.join(textx.text.split(' ')[1:])
     else:
-        await request.edit("`Usage: .codename <brand> <device>`")
+        await request.edit("**Usage:** `.codename <brand> <device>`")
         return
 
     data = json.loads(
@@ -115,7 +115,7 @@ async def devices_specifications(request):
         brand = textx.text.split(' ')[0]
         device = ' '.join(textx.text.split(' ')[1:])
     else:
-        await request.edit("`Usage: .specs <brand> <device>`")
+        await request.edit("**Usage:** `.specs <brand> <device>`")
         return
     all_brands = BeautifulSoup(
         get('https://www.devicespecifications.com/en/brand-more').content,
@@ -139,7 +139,7 @@ async def devices_specifications(request):
             if device in i.text.strip().lower()
         ]
     except IndexError:
-        await request.edit(f"`can't find {device}!`")
+        await request.edit(f"**Can't find {device}!**")
     if len(device_page_url) > 2:
         device_page_url = device_page_url[:2]
     reply = ''
@@ -166,11 +166,11 @@ async def twrp(request):
     elif textx:
         device = textx.text.split(' ')[0]
     else:
-        await request.edit("`Usage: .twrp <codename>`")
+        await request.edit("**Usage:** `.twrp <codename>`")
         return
     url = get(f'https://dl.twrp.me/{device}/')
     if url.status_code == 404:
-        reply = f"`Couldn't find twrp downloads for {device}!`\n"
+        reply = f"**Couldn't find twrp downloads for {device}!**\n"
         await request.edit(reply)
         return
     page = BeautifulSoup(url.content, 'lxml')

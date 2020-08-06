@@ -63,24 +63,24 @@ async def mega_downloader(megadl):
     elif msg_link:
         link = msg_link.text
     else:
-        return await megadl.edit("Usage: `.mega` **<MEGA.nz link>**")
+        return await megadl.edit("**Usage:** `.mega <MEGA.nz link>`")
     try:
         link = re.findall(r'\bhttps?://.*mega.*\.nz\S+', link)[0]
         """ - Mega changed their URL again - """
         if "file" in link:
             link = link.replace("#", "!").replace("file/", "#!")
         elif "folder" in link or "#F" in link or "#N" in link:
-            await megadl.edit("`folder download support are removed...`")
+            await megadl.edit("**Cannot download entire folders.**")
             return
     except IndexError:
-        await megadl.edit("`MEGA.nz link not found...`")
+        await megadl.edit("**Nigga pass a valid MEGA URL.**")
         return None
     cmd = f'bin/megadown -q -m {link}'
     result = await subprocess_run(megadl, cmd)
     try:
         data = json.loads(result[0])
     except json.JSONDecodeError:
-        await megadl.edit("**JSONDecodeError**: `failed to extract link...`")
+        await megadl.edit("**JSONDecodeError: Failed to extract link.**")
         return None
     except (IndexError, TypeError):
         return
@@ -96,14 +96,14 @@ async def mega_downloader(megadl):
             raise FileExistsError(errno.EEXIST, os.strerror(errno.EEXIST),
                                   file_path)
         except FileExistsError as e:
-            await megadl.edit(f"`{str(e)}`")
+            await megadl.edit(f"**{str(e)}**")
             return None
     downloader = SmartDL(file_url, temp_file_path, progress_bar=False)
     display_message = None
     try:
         downloader.start(blocking=False)
     except HTTPError as e:
-        await megadl.edit(f"**HTTPError**: `{str(e)}`")
+        await megadl.edit(f"**HTTPError**: **{str(e)}**")
         return None
     start = time.time()
     while not downloader.isFinished():
@@ -123,10 +123,10 @@ async def mega_downloader(megadl):
                 f"`{file_name}`\n\n"
                 "Status\n"
                 f"{progress_str}\n"
-                f"`{humanbytes(downloaded)} of {humanbytes(total_length)}"
-                f" @ {speed}`\n"
-                f"`ETA` -> {time_formatter(estimated_total_time)}\n"
-                f"`Duration` -> {time_formatter(round(diff))}")
+                f"**{humanbytes(downloaded)} of {humanbytes(total_length)}"
+                f" @ {speed}**\n"
+                f"**ETA** -> {time_formatter(estimated_total_time)}\n"
+                f"**Duration** -> {time_formatter(round(diff))}")
             if round(diff % 15.00) == 0 and (display_message != current_message
                                              or total_length == downloaded):
                 await megadl.edit(current_message)
@@ -149,17 +149,17 @@ async def mega_downloader(megadl):
             P.start()
             P.join()
         except FileNotFoundError as e:
-            await megadl.edit(f"`{str(e)}`")
+            await megadl.edit(f"**{str(e)}**")
             return None
         else:
             await megadl.edit(
                 f"`{file_name}`\n\n"
-                f"Successfully downloaded in: '`{file_path}`'.\n"
-                f"Download took: {time_formatter(download_time)}.")
+                f"**Successfully downloaded in:** '`{file_path}`'.\n"
+                f"**Download took: {time_formatter(download_time)}.**")
             return None
     else:
-        await megadl.edit("`Failed to download, "
-                          "check heroku Logs for more details.`")
+        await megadl.edit(
+            "**Failed to download. Check logs for more details.**")
         for e in downloader.get_errors():
             LOGS.info(str(e))
     return

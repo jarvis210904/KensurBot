@@ -11,10 +11,10 @@ import asyncio
 import os
 
 import barcode
-import qrcode
 from barcode.writer import ImageWriter
 from bs4 import BeautifulSoup
 
+import qrcode
 from userbot import CMD_HELP, LOGS
 from userbot.events import register
 
@@ -43,7 +43,7 @@ async def parseqr(qr_e):
     if not t_response:
         LOGS.info(e_response)
         LOGS.info(t_response)
-        return await qr_e.edit("Failed to decode.")
+        return await qr_e.edit("**Failed to decode.**")
     soup = BeautifulSoup(t_response, "html.parser")
     qr_contents = soup.find_all("pre")[0].text
     await qr_e.edit(qr_contents)
@@ -54,7 +54,7 @@ async def bq(event):
     """ For .barcode command, genrate a barcode containing the given content. """
     await event.edit("`Processing..`")
     input_str = event.pattern_match.group(1)
-    message = "SYNTAX: `.barcode <long text to include>`"
+    message = "**Syntax:** `.barcode <long text to include>`"
     reply_msg_id = event.message.id
     if input_str:
         message = input_str
@@ -74,7 +74,7 @@ async def bq(event):
         else:
             message = previous_message.message
     else:
-        return event.edit("SYNTAX: `.barcode <long text to include>`")
+        return event.edit("**Syntax:** `.barcode <long text to include>`")
 
     bar_code_type = "code128"
     try:
@@ -95,7 +95,7 @@ async def bq(event):
 async def make_qr(makeqr):
     """ For .makeqr command, make a QR Code containing the given content. """
     input_str = makeqr.pattern_match.group(1)
-    message = "SYNTAX: `.makeqr <long text to include>`"
+    message = "**Syntax:** `.makeqr <long text to include>`"
     reply_msg_id = None
     if input_str:
         message = input_str

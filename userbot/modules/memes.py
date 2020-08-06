@@ -27,7 +27,7 @@ METOOSTR = [
 ]
 
 ZALG_LIST = [[
-    "̖",
+    '"',
     " ̗",
     " ̘",
     " ̙",
@@ -659,7 +659,7 @@ async def who(event):
 
     except BaseException:
         await event.edit(
-            "`Can't slap this person, need to fetch some sticks and stones !!`"
+            "**Can't slap this person, need to fetch some sticks and stones!**"
         )
 
 
@@ -724,7 +724,7 @@ async def copypasta(cp_e):
     elif textx:
         message = textx.text
     else:
-        await cp_e.edit("`😂🅱️IvE👐sOME👅text👅for✌️Me👌tO👐MAkE👀iT💞funNy!💦`")
+        await cp_e.edit("😂🅱️IvE👐sOME👅text👅for✌️Me👌tO👐MAkE👀iT💞funNy!💦")
         return
 
     reply_text = choice(EMOJIS)
@@ -758,7 +758,7 @@ async def vapor(vpr):
     elif textx:
         message = textx.text
     else:
-        await vpr.edit("`Ｇｉｖｅ ｓｏｍｅ ｔｅｘｔ ｆｏｒ ｖａｐｏｒ！`")
+        await vpr.edit("Ｇｉｖｅ ｓｏｍｅ ｔｅｘｔ ｆｏｒ ｖａｐｏｒ！")
         return
 
     for charac in message:
@@ -783,7 +783,7 @@ async def stretch(stret):
     elif textx:
         message = textx.text
     else:
-        await stret.edit("`GiiiiiiiB sooooooomeeeeeee teeeeeeext!`")
+        await stret.edit("**Giiiiiiib sooooooomeeeeeee teeeeeeext!**")
         return
 
     count = randint(3, 10)
@@ -804,8 +804,7 @@ async def zal(zgfy):
         message = textx.text
     else:
         await zgfy.edit(
-            "`gͫ ̆ i̛ ̺ v͇̆ ȅͅ   a̢ͦ   s̴̪ c̸̢ ä̸ rͩͣ y͖͞   t̨͚ é̠ x̢͖  t͔͛`"
-        )
+            "gͫ ̆ i̛ ̺ v͇̆ ȅͅ   a̢ͦ   s̴̪ c̸̢ ä̸ rͩͣ y͖͞   t̨͚ é̠ x̢͖  t͔͛")
         return
 
     for charac in message:
@@ -847,7 +846,7 @@ async def faces(owo):
     elif textx:
         message = textx.text
     else:
-        await owo.edit("` UwU no text given! `")
+        await owo.edit("**No text given! >_<**")
         return
 
     reply_text = sub(r"(r|l)", "w", message)
@@ -917,7 +916,7 @@ async def spongemocktext(mock):
     elif textx:
         message = textx.text
     else:
-        await mock.edit("`gIvE sOMEtHInG tO MoCk!`")
+        await mock.edit("**gIvE sOMEtHInG tO MoCk!**")
         return
 
     for charac in message:
@@ -940,7 +939,7 @@ async def claptext(memereview):
     elif textx:
         message = textx.text
     else:
-        await memereview.edit("`Hah, I don't clap pointlessly!`")
+        await memereview.edit("**Hah, I don't clap pointlessly!**")
         return
     reply_text = "👏 "
     reply_text += message.replace(" ", " 👏 ")
@@ -981,8 +980,7 @@ async def let_me_google_that_for_you(lmgtfy_q):
     lfy_url = f"http://lmgtfy.com/?s=g&iie=1&q={query_encoded}"
     payload = {'format': 'json', 'url': lfy_url}
     r = requests.get('http://is.gd/create.php', params=payload)
-    await lmgtfy_q.edit(f"Here you are, help yourself.\
-    \n[{query}]({r.json()['shorturl']})")
+    await lmgtfy_q.edit(f"**Here you go:** [{query}]({r.json()['shorturl']})")
 
 
 @register(pattern=r"^\.scam(?: |$)(.*)", outgoing=True)
@@ -1008,7 +1006,7 @@ async def scam(event):
         scam_action = str(args[0]).lower()
         scam_time = int(args[1])
     else:
-        await event.edit("`Invalid Syntax !!`")
+        await event.edit("**Invalid syntax!**")
         return
     try:
         if (scam_time > 0):
@@ -1029,7 +1027,7 @@ async def typewriter(typew):
     elif textx:
         message = textx.text
     else:
-        await typew.edit("`Give a text to type!`")
+        await typew.edit("**Give some text to type!**")
         return
     sleep_time = 0.03
     typing_symbol = "|"

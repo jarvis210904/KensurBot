@@ -39,7 +39,7 @@ async def sysdetails(sysd):
 
             await sysd.edit("`" + result + "`")
         except FileNotFoundError:
-            await sysd.edit("`Install neofetch first!`")
+            await sysd.edit("**Install neofetch first!**")
 
 
 @register(outgoing=True, pattern=r"^\.botver$")
@@ -72,15 +72,11 @@ async def bot_ver(event):
         revout = str(stdout.decode().strip()) \
             + str(stderr.decode().strip())
 
-        await event.edit("`"
-                         f"Userbot  : {verout}\n"
-                         f"Revision : {revout}\n"
-                         f"Telethon : {version.__version__}\n"
-                         "`")
+        await event.edit(f"**Userbot:** `{verout}`\n"
+                         f"**Revision:** `{revout}`\n"
+                         f"**Telethon:** `{version.__version__}`\n")
     else:
-        await event.edit(
-            "Shame that you don't have git, you're running - 'v1.beta.4' anyway!"
-        )
+        await event.edit("**Nigga where the fuck is git?**")
 
 
 @register(outgoing=True, pattern=r"^\.pip(?: |$)(.*)")
@@ -90,7 +86,7 @@ async def pipcheck(pip):
         return
     pipmodule = pip.pattern_match.group(1)
     if pipmodule:
-        await pip.edit("`Searching . . .`")
+        await pip.edit("**Searching ...**")
         pipc = await asyncrunapp(
             "pip3",
             "search",
@@ -105,7 +101,7 @@ async def pipcheck(pip):
 
         if pipout:
             if len(pipout) > 4096:
-                await pip.edit("`Output too large, sending as file`")
+                await pip.edit("**Output too large, sending as file**")
                 file = open("output.txt", "w+")
                 file.write(pipout)
                 file.close()
@@ -126,18 +122,16 @@ async def pipcheck(pip):
                            f"pip3 search {pipmodule}"
                            "`\n**Result: **\n`No Result Returned/False`")
     else:
-        await pip.edit("`Use .help pip to see an example`")
+        await pip.edit("**Use `.help pip` to see an example.**")
 
 
 @register(outgoing=True, pattern=r"^\.alive$")
 async def amireallyalive(alive):
     """ For .alive command, check if the bot is running.  """
-    await alive.edit("`"
-                     "KensurBot is up and running!\n\n"
-                     f"Bot    : v0.7.801\n"
-                     f"Python : {python_version()}\n"
-                     f"User   : {DEFAULTUSER}"
-                     "`")
+    await alive.edit("**KensurBot is up and running!**\n\n"
+                     f"**Bot:** `v0.7.801`\n"
+                     f"**Python:** `{python_version()}`\n"
+                     f"**Username:** `{DEFAULTUSER}`")
 
 
 @register(outgoing=True, pattern=r"^\.aliveu")
@@ -149,8 +143,8 @@ async def amireallyaliveuser(username):
         newuser = message[8:]
         global DEFAULTUSER
         DEFAULTUSER = newuser
-        output = 'Successfully changed user to ' + newuser + '!'
-    await username.edit("`" f"{output}" "`")
+        output = '**Successfully changed user to** `' + newuser + '`**!**'
+    await username.edit(output)
 
 
 @register(outgoing=True, pattern=r"^\.resetalive$")

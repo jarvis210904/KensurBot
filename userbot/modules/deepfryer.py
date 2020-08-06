@@ -1,7 +1,7 @@
 import os
+from asyncio.exceptions import TimeoutError
 
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-from asyncio.exceptions import TimeoutError
 
 from userbot import CMD_HELP, TEMP_DOWNLOAD_DIRECTORY, bot
 from userbot.events import register
@@ -9,19 +9,19 @@ from userbot.events import register
 
 @register(outgoing=True, pattern=r"^\.df(:? |$)([1-8])?")
 async def _(fry):
-    await fry.edit("`Sending information...`")
+    await fry.edit("**Processing...**")
     level = fry.pattern_match.group(2)
     if fry.fwd_from:
         return
     if not fry.reply_to_msg_id:
-        await fry.edit("`Reply to any user message photo...`")
+        await fry.edit("**Reply to an image or a sticker!**")
         return
     reply_message = await fry.get_reply_message()
     if not reply_message.media:
-        await fry.edit("`No image found to fry...`")
+        await fry.edit("**No image found to fry!**")
         return
     if reply_message.sender.bot:
-        await fry.edit("`Reply to actual user...`")
+        await fry.edit("**Reply to an actual user!**")
         return
     chat = "@image_deepfrybot"
     message_id_to_reply = fry.message.reply_to_msg_id
@@ -37,10 +37,13 @@ async def _(fry):
                 """ - don't spam notif - """
                 await bot.send_read_acknowledge(conv.chat_id)
             except YouBlockedUserError:
-                await fry.reply("`Please unblock` @image_deepfrybot`...`")
+                await fry.reply(
+                    "**Unblock** @image_deepfrybot **and try again.**")
                 return
             if response.text.startswith("Forward"):
-                await fry.edit("`Please disable your forward privacy setting...`")
+                await fry.edit(
+                    "**Add** @image_deepfrybot **to your forward privacy setting.**"
+                )
             else:
                 downloaded_file_name = await fry.client.download_media(
                     response.media, TEMP_DOWNLOAD_DIRECTORY)
@@ -56,9 +59,11 @@ async def _(fry):
                                                      [msg.id, response.id])
                 else:
                     await fry.client.delete_messages(
-                        conv.chat_id, [msg.id, response.id, r.id, msg_level.id])
+                        conv.chat_id,
+                        [msg.id, response.id, r.id, msg_level.id])
     except TimeoutError:
-        return await fry.edit("**Error:** @image_deepfrybot **is not responding.**")
+        return await fry.edit(
+            "**Error:** @image_deepfrybot **is not responding.**")
     await fry.delete()
     return os.remove(downloaded_file_name)
 

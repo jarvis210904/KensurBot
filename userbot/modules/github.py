@@ -20,7 +20,7 @@ async def github(event):
         async with session.get(URL) as request:
             if request.status == 404:
                 await event.reply("`" + event.pattern_match.group(1) +
-                                  " not found`")
+                                  "` **not found**")
                 return
 
             result = await request.json()
@@ -31,13 +31,13 @@ async def github(event):
             bio = result.get("bio", None)
             created_at = result.get("created_at", "Not Found")
 
-            REPLY = f"GitHub Info for `{event.pattern_match.group(1)}`\
-            \nUsername: `{name}`\
-            \nBio: `{bio}`\
+            REPLY = f"**GitHub Info for** `{event.pattern_match.group(1)}`\
+            \n**Username:** `{name}`\
+            \n**Bio:** {bio}\
             \nURL: {url}\
-            \nCompany: `{company}`\
-            \nCreated at: `{created_at}`\
-            \nMore info : [Here](https://api.github.com/users/{event.pattern_match.group(1)}/events/public)"
+            \n**Company:** {company}\
+            \n**Created at:** {created_at}\
+            \n**More info:** [Here](https://api.github.com/users/{event.pattern_match.group(1)}/events/public)"
 
             if not result.get("repos_url", None):
                 await event.edit(REPLY)
@@ -50,7 +50,7 @@ async def github(event):
 
                 result = await request.json()
 
-                REPLY += "\nRepos:\n"
+                REPLY += "\n**Repos:**\n"
 
                 for nr in range(len(result)):
                     REPLY += f"[{result[nr].get('name', None)}]({result[nr].get('html_url', None)})\n"

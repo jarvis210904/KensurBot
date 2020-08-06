@@ -2,8 +2,8 @@ import os
 from datetime import datetime
 
 from PIL import Image
-from telegraph import Telegraph, exceptions, upload_file
 
+from telegraph import Telegraph, exceptions, upload_file
 from userbot import CMD_HELP, TEMP_DOWNLOAD_DIRECTORY, bot
 from userbot.events import register
 
@@ -15,7 +15,7 @@ auth_url = r["auth_url"]
 @register(outgoing=True, pattern=r"^\.telegraph (media|text)$")
 async def telegraphs(graph):
     """ For .telegraph command, upload media & text to telegraph site. """
-    await graph.edit("`Processing...`")
+    await graph.edit("**Processing...**")
     if not graph.text[0].isalpha() and graph.text[0] not in ("/", "#", "@",
                                                              "!"):
         if graph.fwd_from:
@@ -31,8 +31,9 @@ async def telegraphs(graph):
                     r_message, TEMP_DOWNLOAD_DIRECTORY)
                 end = datetime.now()
                 ms = (end - start).seconds
-                await graph.edit("Downloaded to {} in {} seconds.".format(
-                    downloaded_file_name, ms))
+                await graph.edit(
+                    "**Downloaded to** `{}` **in {} seconds.**".format(
+                        downloaded_file_name, ms))
                 if downloaded_file_name.endswith((".webp")):
                     resize_image(downloaded_file_name)
                 try:
@@ -46,7 +47,7 @@ async def telegraphs(graph):
                     ms_two = (end - start).seconds
                     os.remove(downloaded_file_name)
                     await graph.edit(
-                        "Successfully Uploaded to [telegra.ph](https://telegra.ph{})."
+                        "**Successfully uploaded to** [telegra.ph](https://telegra.ph{})."
                         .format(media_urls[0], (ms + ms_two)),
                         link_preview=True)
             elif input_str == "text":
@@ -71,12 +72,12 @@ async def telegraphs(graph):
                 end = datetime.now()
                 ms = (end - start).seconds
                 await graph.edit(
-                    "Successfully uploaded to [telegra.ph](https://telegra.ph/{})."
+                    "**Successfully uploaded to** [telegra.ph](https://telegra.ph/{})."
                     .format(response["path"], ms),
                     link_preview=True)
         else:
             await graph.edit(
-                "`Reply to a message to get a permanent telegra.ph link.`")
+                "**Reply to a message to get a permanent telegra.ph link.**")
 
 
 def resize_image(image):

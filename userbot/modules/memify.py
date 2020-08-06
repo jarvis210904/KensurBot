@@ -18,20 +18,20 @@ async def mim(event):
         return
     if not event.reply_to_msg_id:
         await event.edit(
-            "`Syntax: reply to an image with .mms` 'text on top' ; 'text on bottom' "
+            "**Syntax: Reply to an image with** `.mms 'text on top' ; 'text on bottom'`."
         )
         return
     reply_message = await event.get_reply_message()
     if not reply_message.media:
-        await event.edit("`Reply to a image/sticker/gif.`")
+        await event.edit("**Reply to a image/sticker/gif.**")
         return
     reply_message.sender
     await bot.download_file(reply_message.media)
     if reply_message.sender.bot:
-        await event.edit("`Reply to actual users message.`")
+        await event.edit("**Reply to an actual user's message.**")
         return
     else:
-        await event.edit("`Processing...`")
+        await event.edit("**Processing...**")
         await asyncio.sleep(5)
     try:
         async with bot.conversation("@MemeAutobot") as bot_conv:
@@ -44,13 +44,15 @@ async def mim(event):
                 await bot.send_file(chat, reply_message.media)
                 response = await bot_conv.get_response()
             except YouBlockedUserError:
-                await event.reply("`Please unblock @MemeAutobot and try again.`")
+                await event.reply(
+                    "**Please unblock** @MemeAutobot **and try again.**")
                 return
             if response.text.startswith("Forward"):
                 await event.edit(
-                    "`Add `@MemeAutobot` to your forward privacy settings.`")
+                    "**Add **@MemeAutobot** to your forward privacy settings.**"
+                )
             if "Okay..." in response.text:
-                await event.edit("`Converting...`")
+                await event.edit("**Converting...**")
                 thumb = None
                 if os.path.exists(THUMB_IMAGE_PATH):
                     thumb = THUMB_IMAGE_PATH
@@ -61,8 +63,8 @@ async def mim(event):
                     file_name = "meme.png"
                     reply_message = await event.get_reply_message()
                     to_download_directory = TEMP_DOWNLOAD_DIRECTORY
-                    downloaded_file_name = os.path.join(to_download_directory,
-                                                        file_name)
+                    downloaded_file_name = os.path.join(
+                        to_download_directory, file_name)
                     downloaded_file_name = await bot.download_media(
                         reply_message,
                         downloaded_file_name,
@@ -97,12 +99,13 @@ async def mim(event):
                 )
                 await event.delete()
             elif not is_message_image(reply_message):
-                await event.edit("`Invalid message type.`")
+                await event.edit("**Invalid message type.**")
                 return
             else:
                 await bot.send_file(event.chat_id, response.media)
     except TimeoutError:
-        return await event.edit("**Error:** @MemeAutobot **is not responding.**")
+        return await event.edit(
+            "**Error:** @MemeAutobot **is not responding.**")
 
 
 def is_message_image(message):

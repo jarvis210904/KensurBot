@@ -18,7 +18,7 @@ async def torrent(event):
         f"https://sjprojectsapi.herokuapp.com/torrent/?query={query}")
     ts = json.loads(response.text)
     if ts != response.json():
-        await event.edit("`Error: Try again later.`")
+        await event.edit("**Error: Try again later.**")
         return
     listdata = ""
     run = 0
@@ -34,13 +34,13 @@ async def torrent(event):
             break
 
     if not listdata:
-        return await event.edit("`Error: No results found`")
+        return await event.edit("**Error: No results found**")
 
-    await event.edit("`Uploading results...`")
+    await event.edit("**Uploading results...**")
     tsfileloc = f"{TEMP_DOWNLOAD_DIRECTORY}/{query}.txt"
     with open(tsfileloc, "w+", encoding="utf8") as out_file:
         out_file.write(str(listdata))
-    caption = f"Torrents for:` {query}`"
+    caption = f"**Torrents for:** `{query}`"
     await event.client.send_file(event.chat_id,
                                  tsfileloc,
                                  caption=caption,

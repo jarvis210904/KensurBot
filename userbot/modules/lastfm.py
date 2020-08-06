@@ -21,14 +21,14 @@ from userbot import (BIO_PREFIX, BOTLOG, BOTLOG_CHATID, CMD_HELP, DEFAULT_BIO,
 from userbot.events import register
 
 # =================== CONSTANT ===================
-LFM_BIO_ENABLED = "```last.fm current music to bio is now enabled.```"
-LFM_BIO_DISABLED = "```last.fm current music to bio is now disabled. Bio reverted to default.```"
-LFM_BIO_RUNNING = "```last.fm current music to bio is already running.```"
-LFM_BIO_ERR = "```No option specified.```"
-LFM_LOG_ENABLED = "```last.fm logging to bot log is now enabled.```"
-LFM_LOG_DISABLED = "```last.fm logging to bot log is now disabled.```"
-LFM_LOG_ERR = "```No option specified.```"
-ERROR_MSG = "```last.fm module halted, got an unexpected error.```"
+LFM_BIO_ENABLED = "**last.fm current music to bio is now enabled.**"
+LFM_BIO_DISABLED = "**last.fm current music to bio is now disabled. Bio reverted to default.**"
+LFM_BIO_RUNNING = "**last.fm current music to bio is already running.**"
+LFM_BIO_ERR = "**No option specified.**"
+LFM_LOG_ENABLED = "**last.fm logging to bot log is now enabled.**"
+LFM_LOG_DISABLED = "**last.fm logging to bot log is now disabled.**"
+LFM_LOG_ERR = "**No option specified.**"
+ERROR_MSG = "**last.fm module halted, got an unexpected error.**"
 
 ARTIST = 0
 SONG = 0
@@ -44,7 +44,7 @@ LastLog = False
 @register(outgoing=True, pattern=r"^\.lastfm$")
 async def last_fm(lastFM):
     """ For .lastfm command, fetch scrobble data from last.fm. """
-    await lastFM.edit("`Processing...`")
+    await lastFM.edit("**Processing...**")
     preview = None
     playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
     username = f"https://www.last.fm/user/{LASTFM_USERNAME}"

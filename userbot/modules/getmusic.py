@@ -19,7 +19,7 @@ async def _(event):
     if event.pattern_match.group(1) == "now":
         playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
         if playing is None:
-            return await event.edit("`Error: No current scrobble found.`")
+            return await event.edit("**Error: No current scrobble found.**")
         artist = playing.get_artist()
         song = playing.get_title()
     else:
@@ -28,11 +28,11 @@ async def _(event):
     track = str(artist) + " - " + str(song)
     chat = "@WooMaiBot"
     link = f"/netease {track}"
-    await event.edit("`Searching...`")
+    await event.edit("**Searching...**")
     try:
         async with bot.conversation(chat) as conv:
             await asyncio.sleep(2)
-            await event.edit("`Downloading...`")
+            await event.edit("**Downloading...**")
             try:
                 msg = await conv.send_message(link)
                 response = await conv.get_response()
@@ -40,16 +40,16 @@ async def _(event):
                 """ - don't spam notif - """
                 await bot.send_read_acknowledge(conv.chat_id)
             except YouBlockedUserError:
-                await event.reply("`Unblock `@WooMaiBot` and retry`")
+                await event.reply("**Unblock **@WooMaiBot** and retry**")
                 return
-            await event.edit("`Uploading...`")
+            await event.edit("**Uploading...**")
             await asyncio.sleep(3)
             await bot.send_file(event.chat_id, respond)
         await event.client.delete_messages(conv.chat_id,
                                            [msg.id, response.id, respond.id])
         await event.delete()
     except TimeoutError:
-        return await event.edit("`Error: `@WooMaiBot is not responding.`")
+        return await event.edit("**Error: **@WooMaiBot **is not responding.**")
 
 
 @register(outgoing=True, pattern=r"^\.songl(?: |$)(.*)")
@@ -58,9 +58,9 @@ async def _(event):
         return
     d_link = event.pattern_match.group(1)
     if ".com" not in d_link:
-        await event.edit("`Enter a valid link to download from`")
+        await event.edit("**Enter a valid link to download from.**")
     else:
-        await event.edit("`Downloading...`")
+        await event.edit("**Downloading...**")
     chat = "@MusicHuntersBot"
     try:
         async with bot.conversation(chat) as conv:
@@ -73,7 +73,7 @@ async def _(event):
                 """ - don't spam notif - """
                 await bot.send_read_acknowledge(conv.chat_id)
             except YouBlockedUserError:
-                await event.edit("`Unblock `@MusicHuntersBot` and retry`")
+                await event.edit("**Unblock **@MusicHuntersBot** and retry**")
                 return
             await bot.send_file(event.chat_id, song, caption=details.text)
             await event.client.delete_messages(
@@ -81,8 +81,8 @@ async def _(event):
                 [msg_start.id, response.id, msg.id, details.id, song.id])
             await event.delete()
     except TimeoutError:
-        return await event.edit("`Error: `@MusicHuntersBot` is not responding."
-                                )
+        return await event.edit(
+            "**Error: **@MusicHuntersBot** is not responding.")
 
 
 @register(outgoing=True, pattern=r"^\.songf (?:(now)|(.*) - (.*))")
@@ -92,7 +92,7 @@ async def _(event):
     if event.pattern_match.group(1) == "now":
         playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
         if playing is None:
-            return await event.edit("`Error: No scrobbling data found.`")
+            return await event.edit("**Error: No current scrobble found.**")
         artist = playing.get_artist()
         song = playing.get_title()
     else:
@@ -100,11 +100,11 @@ async def _(event):
         song = event.pattern_match.group(3)
     track = str(artist) + " - " + str(song)
     chat = "@SpotifyMusicDownloaderBot"
-    await event.edit("`Searching...`")
+    await event.edit("**Searching...**")
     try:
         async with bot.conversation(chat) as conv:
             await asyncio.sleep(2)
-            await event.edit("`Downloading...`")
+            await event.edit("**Downloading...**")
             try:
                 response = conv.wait_event(
                     events.NewMessage(incoming=True, from_users=752979930))
@@ -117,7 +117,7 @@ async def _(event):
                 await bot.send_read_acknowledge(conv.chat_id)
             except YouBlockedUserError:
                 await event.reply(
-                    "`Unblock `@SpotifyMusicDownloaderBot` and retry`")
+                    "**Unblock **@SpotifyMusicDownloaderBot** and retry**")
                 return
             await bot.forward_messages(event.chat_id, respond.message)
         await event.client.delete_messages(conv.chat_id,
@@ -125,7 +125,7 @@ async def _(event):
         await event.delete()
     except TimeoutError:
         return await event.edit(
-            "`Error: `@SpotifyMusicDownloaderBot` is not responding.`")
+            "**Error: **@SpotifyMusicDownloaderBot** is not responding.**")
 
 
 CMD_HELP.update({
